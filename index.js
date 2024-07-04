@@ -16,7 +16,7 @@ app.use(express.json({ limit: '1mb' })); // Adjust the limit as needed
 app.use(express.urlencoded({ limit: '1mb', extended: true })); // Adjust the limit as needed
 
 var corsOptions = {
-    origin: ['http://localhost:4200','https://hotelmanagement-y3t0.onrender.com'], // Specify your trusted domain
+    origin: ['http://localhost:4200','https://hotelmanagement-15e83.web.app'], // Specify your trusted domain
     optionsSuccessStatus: 200,
     credentials: true
 }
