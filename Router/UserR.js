@@ -12,7 +12,7 @@ router.post('/login', userController.login);
 router.post('/logout', userController.logout);
 
 // Get all users
-router.get('/', userController.getAllUsers);
+router.get('/GetAllUsers', userController.getAllUsers);
 
 // Get a user by ID
 router.get('/:id', userController.getUserById);
