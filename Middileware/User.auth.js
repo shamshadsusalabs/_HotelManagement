@@ -1,4 +1,4 @@
-const express = require('express');
+
 const jwt = require('jsonwebtoken');
 
 // Middleware to verify JWT token

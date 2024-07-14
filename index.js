@@ -10,13 +10,16 @@ const cooKiParser =require('cookie-parser');
 
 
 
+// Middleware
 app.use(cooKiParser());
-app.use(bodyParser.json()); 
-app.use(express.json({ limit: '1mb' })); // Adjust the limit as needed
-app.use(express.urlencoded({ limit: '1mb', extended: true })); // Adjust the limit as needed
+app.use(bodyParser.json({ limit: '10mb' })); // Increase limit for body-parser
+app.use(express.json({ limit: '10mb' })); // Increase limit for express.json
+app.use(express.urlencoded({ limit: '10mb', extended: true })); // Increase limit for express.urlencoded
+
+// CORS configuration and routes...
 
 var corsOptions = {
-    origin: ['http://localhost:4200','https://hotelmanagement-15e83.web.app'], // Specify your trusted domain
+    origin: ['http://localhost:4200'], // Specify your trusted domain
     optionsSuccessStatus: 200,
     credentials: true
 }
@@ -26,15 +29,18 @@ app.use(cors(corsOptions));
 const users= require('./Router/UserR');
 app.use('/users',  users );
 
-// const CurrencyRate= require('./Router/CurrencyRate');
-// app.use('/CurrencyRate', CurrencyRate );
+const Room= require('./Router/RoomR');
+app.use('/api/v1/Rooms', Room );
 
+const Menu= require('./Router/RestaurantMenuR');
+app.use('/api/v1/', Menu);
 
-// const Beneficiary= require('./Router/Beneficiary');
-// app.use('/Beneficiary',  Beneficiary );
+const Laundry= require('./Router/LaundryItemR');
+app.use('/api/v1/', Laundry);
 
-// const Transfer= require('./Router/Transfer');
-// app.use('/Trasfer',  Transfer );
+const CheckIn= require('./Router/CheckInR');
+app.use('/api/v1/',  CheckIn);
+
 
 
 app.get('/',(req,res) =>{

@@ -1,4 +1,4 @@
-const User = require('../Scema/User');
+const User = require('../Schema/User');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'abcdefghijklmnopqrstuvwxyzabvcxzserf';
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     }
 
     // Generate a JWT token
-    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1h' });
+    const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
     // Set the token in an HTTP-only and secure cookie
     res.cookie('token', token, {
