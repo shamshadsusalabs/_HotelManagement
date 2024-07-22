@@ -19,7 +19,7 @@ app.use(express.urlencoded({ limit: '10mb', extended: true })); // Increase limi
 // CORS configuration and routes...
 
 var corsOptions = {
-    origin: ['http://localhost:4200'], // Specify your trusted domain
+    origin: ['http://localhost:4200','https://hotelmanagement-15e83.web.app'], // Specify your trusted domain
     optionsSuccessStatus: 200,
     credentials: true
 }
