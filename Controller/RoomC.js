@@ -3,6 +3,42 @@
 const bucket = require('../config/firebaseConfig');  // Assuming you have configured your Firebase/GCS bucket
 const Room = require('../Schema/Room');
 
+exports.UpdateStatus = async (req, res) => {
+  try {
+    // Extract roomNumber directly from req.params
+    const { roomNumber } = req.params;
+    const { roomStatus } = req.body; // Assuming roomStatus is directly available in req.body
+
+    // Log the roomNumber and request body to debug
+    console.log('Room number:', roomNumber);
+    console.log('Request body:', req.body);
+
+    // Validate that roomNumber is provided
+    if (!roomNumber) {
+      return res.status(400).json({ message: 'Room number is required' });
+    }
+
+    // Validate that roomStatus is provided
+    if (!roomStatus) {
+      return res.status(400).json({ message: 'Room status is required' });
+    }
+
+    // Find and update the room status
+    const room = await Room.findOne({ roomNumber: roomNumber });
+    if (room) {
+      room.roomStatus = roomStatus; // Assign new room status
+      await room.save();
+      res.status(200).json(room); // Respond with updated room object if needed
+    } else {
+      res.status(404).json({ message: 'Room not found' });
+    }
+  } catch (error) {
+    console.error('Error updating room status:', error); // Log detailed error
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
+
 // Create a new room
 exports.createRoom = async (req, res) => {
   try {

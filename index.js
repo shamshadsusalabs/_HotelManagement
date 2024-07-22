@@ -38,8 +38,8 @@ app.use('/api/v1/', Menu);
 const Laundry= require('./Router/LaundryItemR');
 app.use('/api/v1/', Laundry);
 
-const CheckIn= require('./Router/CheckInR');
-app.use('/api/v1/',  CheckIn);
+const Booking= require('./Router/BookingR');
+app.use('/api/v1/',   Booking);
 
 
 

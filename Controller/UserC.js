@@ -60,16 +60,23 @@ exports.login = async (req, res) => {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
       sameSite: 'strict', // Optional, for CSRF protection
-      maxAge: 3600000 // 1 hour
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
     });
 
-    res.json({ message: 'Login successful' });
+    // Send user data along with the response
+    res.json({
+      message: 'Login successful',
+      user: {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        department: user.department // Add any other user fields you want to include
+      }
+    });
   } catch (err) {
     res.status(500).json({ error: err.message });
   }
 };
-
-
 // Logout a user
 exports.logout = (req, res) => {
   // Clear the cookie

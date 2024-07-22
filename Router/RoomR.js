@@ -12,5 +12,6 @@ router.get('/rooms/:id',authenticateToken, roomController.getRoomById);
 router.put('/rooms/:id',upload.array('roomImages', 10),authenticateToken, roomController.updateRoom );
 router.delete('/rooms/:id',authenticateToken , roomController.deleteRoomById);
 router.get('/roomsAvailable',authenticateToken, roomController.getAvailableRooms);
+router.patch('/rooms/:roomNumber' ,authenticateToken, roomController.UpdateStatus);
 
 module.exports = router;
