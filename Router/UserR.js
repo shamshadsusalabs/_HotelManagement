@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require('../Controller/UserC');
 const  authenticateToken  = require('../Middileware/User.auth');
 // Register a new user
-router.post('/register', userController.register);
+// router.post('/register', userController.register);
 
 // Login a user
 router.post('/login', userController.login);
