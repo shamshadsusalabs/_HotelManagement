@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const roomController = require('../Controller/RoomC');
 const upload = require('../Middileware/multerMiddleware');
-const  authenticateToken  = require('../Middileware/User.auth')
+const  authenticateToken  = require('../Middileware/User.auth');
 
 
 

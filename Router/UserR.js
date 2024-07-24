@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../Controller/UserC');
-
+const  authenticateToken  = require('../Middileware/User.auth');
 // Register a new user
 router.post('/register', userController.register);
 
@@ -9,7 +9,7 @@ router.post('/register', userController.register);
 router.post('/login', userController.login);
 
 // Logout a user
-router.post('/logout', userController.logout);
+router.post('/logout',authenticateToken, userController.logout);
 
 // Get all users
 router.get('/GetAllUsers', userController.getAllUsers);
