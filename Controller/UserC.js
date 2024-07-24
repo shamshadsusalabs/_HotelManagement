@@ -28,12 +28,18 @@ exports.login = async (req, res) => {
     console.log('Generated JWT Token:', token);
 
     // Set the token in an HTTP-only and secure cookie
-    res.cookie('token', token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
-      sameSite: 'strict', // Optional, for CSRF protection
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
-    });
+   // Set the token in an HTTP-only and secure cookie
+   res.cookie('token', token, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
+    sameSite: 'strict', // Optional, for CSRF protection
+    maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
+    domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost', // Specify 'localhost' for local development
+    path: '/' // Set to '/' or another path if needed
+  });
+  
+  
+
 
     // Send user data along with the response
     res.json({
