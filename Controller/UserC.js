@@ -24,22 +24,24 @@ exports.login = async (req, res) => {
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
-    // Log the token to the console for debugging purposes
+    // Log the token and cookie settings for debugging
     console.log('Generated JWT Token:', token);
+    console.log('Setting cookie with options:', {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+      domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost'
+    });
 
     // Set the token in an HTTP-only and secure cookie
-   // Set the token in an HTTP-only and secure cookie
-   res.cookie('token', token, {
-    httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // Set to true if using HTTPS
-    sameSite: 'strict', // Optional, for CSRF protection
-    maxAge: 24 * 60 * 60 * 1000, // 24 hours in milliseconds
-    domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost', // Specify 'localhost' for local development
-    path: '/' // Set to '/' or another path if needed
-  });
-  
-  
-
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 24 * 60 * 60 * 1000,
+      domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost'
+    });
 
     // Send user data along with the response
     res.json({
@@ -48,11 +50,11 @@ exports.login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        department: user.department // Add any other user fields you want to include
+        department: user.department
       }
     });
   } catch (err) {
-    console.error('Login error:', err); // Log the error to the server console
+    console.error('Login error:', err);
     res.status(500).json({ error: 'An internal error occurred' });
   }
 };
