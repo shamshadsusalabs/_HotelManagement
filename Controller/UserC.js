@@ -26,14 +26,9 @@ exports.login = async (req, res) => {
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
-    // Determine if the environment is production
-    const isProduction = process.env.NODE_ENV === 'production';
-
-    // Set the token in an HTTP-only and secure cookie
+    // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: isProduction, // Set to true only in production
-      sameSite: 'strict', // Optional, for CSRF protection
       maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
     });
 

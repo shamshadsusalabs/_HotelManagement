@@ -17,13 +17,13 @@ app.use(express.json({ limit: '10mb' })); // Increase limit for express.json
 app.use(express.urlencoded({ limit: '10mb', extended: true })); // Increase limit for express.urlencoded
 
 // CORS configuration and routes...
-
 var corsOptions = {
-    origin: ['http://localhost:4200','https://hotelmanagement-15e83.web.app'], // Specify your trusted domain
+    origin: ['http://localhost:4200', 'https://hotelmanagement-15e83.web.app'], // Trusted domains
     optionsSuccessStatus: 200,
-    credentials: true
-}
-app.use(cors(corsOptions));
+    credentials: true // Allow credentials (cookies) to be sent
+  };
+  app.use(cors(corsOptions));
+  
 
 
 const users= require('./Router/UserR');
