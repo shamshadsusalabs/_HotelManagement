@@ -29,8 +29,13 @@ exports.login = async (req, res) => {
     // Set the token in an HTTP-only cookie
     res.cookie('token', token, {
       httpOnly: true,
+      secure: true, // Only use secure cookies in production
+      sameSite: 'None', // Allows cookies to be sent in cross-site requests
+      domain: '.hotelmanagement-y3t0.onrender.com',
+      path: '/',
       maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
     });
+    
 
     // Send user data along with the response
     res.json({
