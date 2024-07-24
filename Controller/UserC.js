@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const JWT_SECRET = process.env.JWT_SECRET || 'abcdefghijklmnopqrstuvwxyzabvcxzserf';
 
+// Register a new user
+
 // Login a user and generate a token
 exports.login = async (req, res) => {
   try {
@@ -24,23 +26,15 @@ exports.login = async (req, res) => {
     // Generate a JWT token
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, { expiresIn: '1d' });
 
-    // Log the token and cookie settings for debugging
-    console.log('Generated JWT Token:', token);
-    console.log('Setting cookie with options:', {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000,
-      domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost'
-    });
+    // Determine if the environment is production
+    const isProduction = process.env.NODE_ENV === 'production';
 
     // Set the token in an HTTP-only and secure cookie
     res.cookie('token', token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
-      maxAge: 24 * 60 * 60 * 1000,
-      domain: process.env.NODE_ENV === 'production' ? '.example.com' : 'localhost'
+      secure: isProduction, // Set to true only in production
+      sameSite: 'strict', // Optional, for CSRF protection
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
     });
 
     // Send user data along with the response
@@ -50,15 +44,13 @@ exports.login = async (req, res) => {
         _id: user._id,
         name: user.name,
         email: user.email,
-        department: user.department
+        department: user.department // Add any other user fields you want to include
       }
     });
   } catch (err) {
-    console.error('Login error:', err);
-    res.status(500).json({ error: 'An internal error occurred' });
+    res.status(500).json({ error: err.message });
   }
 };
-
 
 // Logout a user
 exports.logout = (req, res) => {
